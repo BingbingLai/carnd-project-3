@@ -85,8 +85,11 @@ def helper(parent_dir):
 
 def train():
     parent_dirs = [
-        'data',
-        'local-trained-data',
+        # 'data',
+        # 'local-trained-data',
+	'local-trained-data-opposite-direction',
+	'local-trained-data-original-direction',
+	'local-trained-data-off-tracks',
 ]
 
     all_images = []
