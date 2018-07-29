@@ -26,7 +26,6 @@ def _get_data():
         'local-trained-data-along-curves',
     ]
 
-
     lines = []
     for p in parent_dirs:
         csv_file = './{}/driving_log.csv'.format(p)
@@ -43,29 +42,29 @@ def _generator(samples, batch_size=32):
     # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
 
     num_samples = len(samples)
-    while 1: # Loop forever so the generator never terminates
-        print('hi loop')
-        shuffle(samples)
-        for offset in range(0, num_samples, batch_size):
-            batch_samples = samples[offset:offset+batch_size]
+    print('hi in generator')
 
-            images = []
-            angles = []
-            for batch_sample in batch_samples:
+    shuffle(samples)
+    for offset in range(0, num_samples, batch_size):
+        batch_samples = samples[offset:offset+batch_size]
 
-                directory = batch_sample[0].split('/')[-3]
-                image_path = batch_sample[0].split('/')[-1]
-                name = './{}/IMG/{}'.format(directory, image_path)
+        images = []
+        angles = []
+        for batch_sample in batch_samples:
 
-                center_image = cv2.imread(name)
-                center_angle = float(batch_sample[3])
-                images.append(center_image)
-                angles.append(center_angle)
+            directory = batch_sample[0].split('/')[-3]
+            image_path = batch_sample[0].split('/')[-1]
+            name = './{}/IMG/{}'.format(directory, image_path)
 
-            # trim image to only see section with road
-            X_train = np.array(images)
-            y_train = np.array(angles)
-            yield shuffle(X_train, y_train)
+            center_image = cv2.imread(name)
+            center_angle = float(batch_sample[3])
+            images.append(center_image)
+            angles.append(center_angle)
+
+        # trim image to only see section with road
+        X_train = np.array(images)
+        y_train = np.array(angles)
+        yield shuffle(X_train, y_train)
 
 
 
