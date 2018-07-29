@@ -89,7 +89,8 @@ def train():
         # 'local-trained-data',
 	'local-trained-data-opposite-direction',
 	'local-trained-data-original-direction',
-	'local-trained-data-off-tracks',
+	'local-trained-data-off-tracks-new',
+	'local-trained-data-along-curves',
 ]
 
     all_images = []
