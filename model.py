@@ -93,8 +93,8 @@ def _generator(samples, batch_size=32):
 
 def train():
     train_samples, validation_samples = _get_data()
-    train_generator = _generator(train_samples, batch_size=640)
-    validation_generator = _generator(validation_samples, batch_size=640)
+    train_generator = _generator(train_samples, batch_size=32)
+    validation_generator = _generator(validation_samples, batch_size=32)
 
 
     model = Sequential()
