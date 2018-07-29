@@ -7,110 +7,72 @@ import keras
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.convolutional import Convolution2D
 from keras.layers import pooling
+from sklearn.model_selection import train_test_split
+
+from sklearn.utils import shuffle
 
 
 
 _CORRECTION_NUM = 0.02
 
 
-# ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
-
-
-def helper(parent_dir):
-    lines = []
-    csv_file = './{}/driving_log.csv'.format(parent_dir)
-    image_file_base = './{}/IMG/'.format(parent_dir)
-
-    with open(csv_file) as csvfile:
-        reader = csv.reader(csvfile)
-        for line in reader:
-            lines.append(line)
-
-
-    return_images = []
-    return_measurements = []
-
-    lines = iter(lines)
-    # remove headers
-    _ = next(lines)
-
-    for line in lines:
-        source_path = line[0]
-        filename = source_path.split('/')[-1]
-        current_path = image_file_base + filename
-
-        image = cv2.imread(current_path)
-
-        return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
-
-        measurement = float(line[3])
-        return_measurements.append(measurement)
-        return_measurements.append(measurement * -1.0)
-
-
-        # left
-        source_path = line[1]
-        filename = source_path.split('/')[-1]
-        current_path = image_file_base + filename
-
-
-        image = cv2.imread(current_path)
-        return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
-
-
-        measurement = float(line[3])
-        return_measurements.append(measurement + _CORRECTION_NUM)
-        return_measurements.append((measurement+_CORRECTION_NUM)* -1.0)
-
-
-        # right
-        source_path = line[2]
-        filename = source_path.split('/')[-1]
-        current_path = image_file_base+ filename
-
-
-        image = cv2.imread(current_path)
-        return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
-
-
-        measurement = float(line[3])
-        return_measurements.append(measurement-_CORRECTION_NUM)
-        return_measurements.append((measurement-_CORRECTION_NUM)* -1.0)
-
-    return return_images, return_measurements
-
-
-def train():
+def _get_data():
     parent_dirs = [
         # 'data',
         # 'local-trained-data',
-	'local-trained-data-opposite-direction',
-	'local-trained-data-original-direction',
-	'local-trained-data-off-tracks-new',
-	'local-trained-data-along-curves',
-]
-
-    all_images = []
-    all_measurements = []
-    for the_dir in parent_dirs:
-        _images, _measurements = helper(the_dir)
-        print('dir: {}, images: {}'.format(the_dir, len(_images)))
-        all_images.extend(_images)
-        all_measurements.extend(_measurements)
+        'local-trained-data-opposite-direction',
+        # 'local-trained-data-original-direction',
+        # 'local-trained-data-off-tracks-new',
+        # 'local-trained-data-along-curves',
+    ]
 
 
-    print('total images', len(all_images))
-    print('total measurements', len(all_measurements))
+    lines = []
+    for p in parent_dirs:
+        csv_file = './{}/driving_log.csv'.format(p)
+        with open(csv_file) as csvfile:
+            reader = csv.reader(csvfile)
+            for line in reader:
+                lines.append(line)
+
+    return train_test_split(lines, test_size=0.2)
 
 
-    X_train = np.array(all_images)
-    y_train = np.array(all_measurements)
+def _generator(samples, batch_size=32):
+    # csv data format:
+    # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
 
-    print(X_train.shape)
-    print(y_train.shape)
+    num_samples = len(samples)
+    while 1: # Loop forever so the generator never terminates
+        shuffle(samples)
+        for offset in range(0, num_samples, batch_size):
+            batch_samples = samples[offset:offset+batch_size]
+
+            images = []
+            angles = []
+            for batch_sample in batch_samples:
+
+                directory = batch_sample[0].split('/')[-3]
+                image_path = batch_sample[0].split('/')[-1]
+                name = './{}/IMG/{}'.format(directory, image_path)
+
+                center_image = cv2.imread(name)
+                center_angle = float(batch_sample[3])
+                images.append(center_image)
+                angles.append(center_angle)
+
+            # trim image to only see section with road
+            X_train = np.array(images)
+            y_train = np.array(angles)
+            yield shuffle(X_train, y_train)
+
+
+
+def train():
+    train_samples, validation_samples = _get_data()
+    train_generator = _generator(train_samples, batch_size=32)
+    validation_generator = _generator(validation_samples, batch_size=32)
+
 
     model = Sequential()
     model.add(Lambda(lambda x: x / 255.0 -0.5, input_shape=(160,320,3)))
@@ -130,9 +92,14 @@ def train():
 
     model.compile(loss = 'mse', optimizer='adam')
     print('Printing...')
-    model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=3)
-    # increasing epoch doesn't seem to help
-    # model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=10)
+    model.fit_generator(
+        train_generator,
+        samples_per_epoch=len(train_samples),
+        validation_data=validation_generator,
+        nb_val_samples=len(validation_samples),
+        verbose=1,
+        nb_epoch=3,
+    )
     model.save('model.h5')
     print('Done')
 
