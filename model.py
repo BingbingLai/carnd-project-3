@@ -51,15 +51,37 @@ def _generator(samples, batch_size=32):
         images = []
         angles = []
         for batch_sample in batch_samples:
-
-            directory = batch_sample[0].split('/')[-3]
-            image_path = batch_sample[0].split('/')[-1]
+            # center
+            center = batch_sample[0]
+            directory = center.split('/')[-3]
+            image_path = center.split('/')[-1]
             name = './{}/IMG/{}'.format(directory, image_path)
-
             center_image = cv2.imread(name)
             center_angle = float(batch_sample[3])
             images.append(center_image)
             angles.append(center_angle)
+
+            # left
+            left = batch_sample[1]
+            directory = left.split('/')[-3]
+            image_path = left.split('/')[-1]
+            name = './{}/IMG/{}'.format(directory, image_path)
+            left_image = cv2.imread(name)
+            left_angle = float(batch_sample[3])
+            images.append(left_image)
+            angles.append(left_angle + _CORRECTION_NUM)
+
+            # right
+            right = batch_sample[2]
+            directory = right.split('/')[-3]
+            image_path = right.split('/')[-1]
+            name = './{}/IMG/{}'.format(directory, image_path)
+            right_image = cv2.imread(name)
+            right_angle = float(batch_sample[3])
+            images.append(right_image)
+            angles.append(right_angle - _CORRECTION_NUM)
+
+
 
         # trim image to only see section with road
         X_train = np.array(images)
