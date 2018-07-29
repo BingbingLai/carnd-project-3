@@ -6,7 +6,7 @@ from keras.layers import Flatten, Dense, Lambda, Cropping2D
 import keras
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.convolutional import Convolution2D
-from keras.layers import pooling
+from keras.layers import pooling, Dropout
 from sklearn.model_selection import train_test_split
 
 from sklearn.utils import shuffle
@@ -21,9 +21,9 @@ def _get_data():
         # 'data',
         # 'local-trained-data',
         'local-trained-data-opposite-direction',
-        # 'local-trained-data-original-direction',
+        'local-trained-data-original-direction',
         # 'local-trained-data-off-tracks-new',
-        # 'local-trained-data-along-curves',
+        'local-trained-data-along-curves',
     ]
 
 
@@ -44,6 +44,7 @@ def _generator(samples, batch_size=32):
 
     num_samples = len(samples)
     while 1: # Loop forever so the generator never terminates
+        print('hi loop')
         shuffle(samples)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
@@ -89,6 +90,8 @@ def train():
     model.add(Dense(50))
     model.add(Dense(10))
     model.add(Dense(1))
+    model.add(Dropout(0.1))
+
 
     model.compile(loss = 'mse', optimizer='adam')
     print('Printing...')
