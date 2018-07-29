@@ -10,7 +10,7 @@ from keras.layers import pooling
 
 
 
-_CORRECTION_NUM = 0.02
+_CORRECTION_NUM = 0.015
 
 
 # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
@@ -85,13 +85,13 @@ def helper(parent_dir):
 
 def train():
     parent_dirs = [
-        # 'data',
+        'data',
         # 'local-trained-data',
-	'local-trained-data-opposite-direction',
-	'local-trained-data-original-direction',
-	# 'local-trained-data-off-tracks-new',
-	'local-trained-data-along-curves',
-]
+        'local-trained-data-opposite-direction',
+        # 'local-trained-data-original-direction',
+        # 'local-trained-data-off-tracks-new',
+        'local-trained-data-along-curves',
+    ]
 
     all_images = []
     all_measurements = []
