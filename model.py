@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import csv
 from keras.models import Sequential
-from keras.layers import Flatten, Dense, Lambda, Cropping2D
+from keras.layers import Flatten, Dense, Lambda, Cropping2D, Dropout
 import keras
 from keras.layers.convolutional import MaxPooling2D
 from keras.layers.convolutional import Convolution2D
@@ -89,7 +89,7 @@ def train():
         # 'local-trained-data',
 	'local-trained-data-opposite-direction',
 	'local-trained-data-original-direction',
-	'local-trained-data-off-tracks-new',
+	# 'local-trained-data-off-tracks-new',
 	'local-trained-data-along-curves',
 ]
 
@@ -127,6 +127,8 @@ def train():
     model.add(Dense(50))
     model.add(Dense(10))
     model.add(Dense(1))
+
+    model.add(Dropout(0.1))
 
     model.compile(loss = 'mse', optimizer='adam')
     print('Printing...')
