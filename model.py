@@ -99,5 +99,7 @@ model.add(Dense(1))
 model.compile(loss = 'mse', optimizer='adam')
 print('Printing...')
 model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=3)
+# increasing epoch doesn't seem to help
+# model.fit(X_train, y_train, validation_split=0.2, shuffle=True, nb_epoch=10)
 model.save('model.h5')
 print('Done')
