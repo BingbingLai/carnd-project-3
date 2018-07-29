@@ -84,10 +84,10 @@ def _generator(samples, batch_size=32):
 
 
 
-        # trim image to only see section with road
-        X_train = np.array(images)
-        y_train = np.array(angles)
-        yield shuffle(X_train, y_train)
+            # trim image to only see section with road
+            X_train = np.array(images)
+            y_train = np.array(angles)
+            yield shuffle(X_train, y_train)
 
 
 
