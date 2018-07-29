@@ -12,38 +12,41 @@ from keras.layers import pooling
 
 _CORRECTION_NUM = 0.02
 
+
 # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
 
 
-def function(parent_dir):
+def helper(parent_dir):
     lines = []
     csv_file = './{}/driving_log.csv'.format(parent_dir)
-    image_file_base = '/{}/IMG/'.format(parent_dir)
+    image_file_base = './{}/IMG/'.format(parent_dir)
 
     with open(csv_file) as csvfile:
         reader = csv.reader(csvfile)
         for line in reader:
             lines.append(line)
 
-    lines = iter(lines)
-    _ = next(lines)
 
     return_images = []
     return_measurements = []
+
+    lines = iter(lines)
+    # remove headers
+    _ = next(lines)
+
     for line in lines:
-        # center
         source_path = line[0]
         filename = source_path.split('/')[-1]
         current_path = image_file_base + filename
 
         image = cv2.imread(current_path)
+
         return_images.append(image)
         return_images.append(cv2.flip(image, 1))
 
         measurement = float(line[3])
         return_measurements.append(measurement)
         return_measurements.append(measurement * -1.0)
-
 
 
         # left
@@ -76,24 +79,35 @@ def function(parent_dir):
         measurement = float(line[3])
         return_measurements.append(measurement-_CORRECTION_NUM)
         return_measurements.append((measurement-_CORRECTION_NUM)* -1.0)
-        return return_images, return_measurements
+
+    return return_images, return_measurements
 
 
 def train():
-    parent_dirs = ['data', 'local-trained-data']
+    parent_dirs = [
+        'data',
+        'local-trained-data',
+]
 
     all_images = []
     all_measurements = []
     for the_dir in parent_dirs:
-        _images, _measurements = function(the_dir)
+        _images, _measurements = helper(the_dir)
+        print('dir: {}, images: {}'.format(the_dir, len(_images)))
         all_images.extend(_images)
-        all_measurements.extend(all_measurements)
+        all_measurements.extend(_measurements)
+
+
+    print('total images', len(all_images))
+    print('total measurements', len(all_measurements))
 
 
     X_train = np.array(all_images)
     y_train = np.array(all_measurements)
 
     print(X_train.shape)
+    print(y_train.shape)
+
     model = Sequential()
     model.add(Lambda(lambda x: x / 255.0 -0.5, input_shape=(160,320,3)))
     model.add(Cropping2D(cropping=((50,20), (0,0))))
