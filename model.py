@@ -14,16 +14,17 @@ with open('./data/driving_log.csv') as csvfile:
     for line in reader:
         lines.append(line)
         
+
 correction_num = 0.02
 images = []
 measurements = []
 
 # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
 
+lines = iter(lines)
+_ = next(lines)
+
 for line in lines:
-    if line[0] == 'center':
-        continue
-    
     # center
     source_path = line[0]
     filename = source_path.split('/')[-1]
