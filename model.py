@@ -43,8 +43,8 @@ def _generator(samples, batch_size=32):
 
     num_samples = len(samples)
 
+    print('hi in generator')
     while 1:
-        print('hi in generator')
         shuffle(samples)
         for offset in range(0, num_samples, batch_size):
             batch_samples = samples[offset:offset+batch_size]
@@ -93,8 +93,8 @@ def _generator(samples, batch_size=32):
 
 def train():
     train_samples, validation_samples = _get_data()
-    train_generator = _generator(train_samples, batch_size=32)
-    validation_generator = _generator(validation_samples, batch_size=32)
+    train_generator = _generator(train_samples, batch_size=640)
+    validation_generator = _generator(validation_samples, batch_size=640)
 
 
     model = Sequential()
