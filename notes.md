@@ -7,3 +7,7 @@ model28 is good; with the following dirs
 
 model29 is terrible
 - dir: data (from udacity) terrible combine with local trained data
+
+
+model30 is not bad but it falls off on whitelines
+- may need to teach it to steer away from white line
