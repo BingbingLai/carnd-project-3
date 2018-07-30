@@ -85,12 +85,12 @@ def helper(parent_dir):
 
 def train():
     parent_dirs = [
-        # 'data',
+        'data',
         # 'local-trained-data',
         # 'local-trained-data-opposite-direction',
-        'local-trained-data-curves-new',
+        # 'local-trained-data-curves-new',
         'local-trained-data-opposite-1',
-        'local-trained-data-original-direction',
+        # 'local-trained-data-original-direction',
         'local-trained-data-drive-to-center',
         # 'local-trained-data-off-tracks-new',
         # 'local-trained-data-along-curves',
