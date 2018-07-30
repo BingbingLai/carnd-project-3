@@ -14,10 +14,15 @@ model30 is not bad but it falls off on whitelines
 
 model31 is still with the curvenews
 
+model32 is from last night -- it's no good
+
+model33 will be the one that's only using the new data
+
+
 # TODO
-- maybe for next one try to get rid of the curve_new data and try again?
-- maybe also flip the images
+- [DONE] maybe for next one try to get rid of the curve_new data and try again?
+- [DONE] maybe also flip the images
 - think the following training images should be good:
-  - 2/3 laps of normal driving in the middle
-  - 2/3 laps of opposite driving in the middle
-  - 2/3 laps of driving to the center from the side (this is probably good enough)
+  - [DONE] 2/3 laps of normal driving in the middle
+  - [DONE] 2/3 laps of opposite driving in the middle
+  - [DONE] 2/3 laps of driving to the center from the side (this is probably good enough)
