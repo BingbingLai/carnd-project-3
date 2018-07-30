@@ -85,7 +85,7 @@ def helper(parent_dir):
 
 def train():
     parent_dirs = [
-        # 'data',
+        'data',
         # 'local-trained-data',
         'local-trained-data-opposite-direction',
         'local-trained-data-curves-new',
