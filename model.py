@@ -10,7 +10,7 @@ from keras.layers import pooling
 
 
 
-_CORRECTION_NUM = 0.005
+_CORRECTION_NUM = 0.02
 
 
 # ['center', 'left', 'right', 'steering', 'throttle', 'brake', 'speed']
