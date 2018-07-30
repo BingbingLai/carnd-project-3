@@ -16,7 +16,7 @@ model31 is still with the curvenews
 
 model32 is from last night -- it's no good
 
-model33 will be the one that's only using the new data
+model33 will be the one that's only using the new data -- no good either
 
 
 # TODO
