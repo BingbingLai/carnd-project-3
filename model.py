@@ -35,50 +35,41 @@ def helper(parent_dir):
     _ = next(lines)
 
     for line in lines:
+        # center
         source_path = line[0]
         filename = source_path.split('/')[-1]
         current_path = image_file_base + filename
-
         image = cv2.imread(current_path)
-
         return_images.append(image)
         return_images.append(cv2.flip(image, 1))
-
         measurement = float(line[3])
         return_measurements.append(measurement)
         return_measurements.append(measurement * -1.0)
 
 
-        # left
-        source_path = line[1]
-        filename = source_path.split('/')[-1]
-        current_path = image_file_base + filename
+        # # left
+        # source_path = line[1]
+        # filename = source_path.split('/')[-1]
+        # current_path = image_file_base + filename
+        # image = cv2.imread(current_path)
+        # return_images.append(image)
+        # return_images.append(cv2.flip(image, 1))
+        # measurement = float(line[3])
+        # return_measurements.append(measurement + _CORRECTION_NUM)
+        # return_measurements.append((measurement+_CORRECTION_NUM)* -1.0)
 
 
-        image = cv2.imread(current_path)
-        return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
+        # # right
+        # source_path = line[2]
+        # filename = source_path.split('/')[-1]
+        # current_path = image_file_base+ filename
+        # image = cv2.imread(current_path)
+        # return_images.append(image)
+        # return_images.append(cv2.flip(image, 1))
+        # measurement = float(line[3])
+        # return_measurements.append(measurement-_CORRECTION_NUM)
+        # return_measurements.append((measurement-_CORRECTION_NUM)* -1.0)
 
-
-        measurement = float(line[3])
-        return_measurements.append(measurement + _CORRECTION_NUM)
-        return_measurements.append((measurement+_CORRECTION_NUM)* -1.0)
-
-
-        # right
-        source_path = line[2]
-        filename = source_path.split('/')[-1]
-        current_path = image_file_base+ filename
-
-
-        image = cv2.imread(current_path)
-        return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
-
-
-        measurement = float(line[3])
-        return_measurements.append(measurement-_CORRECTION_NUM)
-        return_measurements.append((measurement-_CORRECTION_NUM)* -1.0)
 
     return return_images, return_measurements
 
