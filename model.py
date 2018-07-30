@@ -41,10 +41,10 @@ def helper(parent_dir):
         current_path = image_file_base + filename
         image = cv2.imread(current_path)
         return_images.append(image)
-        return_images.append(cv2.flip(image, 1))
+        # return_images.append(cv2.flip(image, 1))
         measurement = float(line[3])
         return_measurements.append(measurement)
-        return_measurements.append(measurement * -1.0)
+        # return_measurements.append(measurement * -1.0)
 
 
         # # left
