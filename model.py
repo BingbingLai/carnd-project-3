@@ -77,11 +77,7 @@ def helper(parent_dir):
 
 def train():
     parent_dirs = [
-        # 'udacity',
-        'local-trained-data-clockwise',
-        'local-trained-data-counter-clockwise',
-        'local-trained-data-drive-to-center2',
-        'local-trained-data-curves',
+        'udacity-data',
     ]
 
     all_images = []
