@@ -11,3 +11,6 @@ model29 is terrible
 
 model30 is not bad but it falls off on whitelines
 - may need to teach it to steer away from white line
+
+# TODO
+- maybe for next one try to get rid of the curve_new data and try again?
