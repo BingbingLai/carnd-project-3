@@ -18,6 +18,8 @@ model32 is from last night -- it's no good
 
 model33 will be the one that's only using the new data -- no good either
 
+model34 is bad
+
 
 # TODO
 - [DONE] maybe for next one try to get rid of the curve_new data and try again?
