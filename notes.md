@@ -14,3 +14,8 @@ model30 is not bad but it falls off on whitelines
 
 # TODO
 - maybe for next one try to get rid of the curve_new data and try again?
+- maybe also flip the images
+- think the following training images should be good:
+  - 2/3 laps of normal driving in the middle
+  - 2/3 laps of opposite driving in the middle
+  - 2/3 laps of driving to the center from the side (this is probably good enough)
