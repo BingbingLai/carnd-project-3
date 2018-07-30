@@ -95,7 +95,9 @@ def train():
         # 'local-trained-data-along-curves',
 
         # new data below
-        'local-trained-data-drive-to-center',
+        # 'local-trained-data-drive-to-center',
+
+        'local-trained-data-drive-to-center2',
         'local-trained-data-clockwise',
         'local-trained-data-counter-clockwise',
         'local-trained-data-curves',
